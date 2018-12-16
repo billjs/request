@@ -1,0 +1,75 @@
+{
+  "name": "@billjs/request",
+  "version": "1.0.0",
+  "description": "A simple and lightweight HTTP request library by TypeScript for browsers.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepublish": "npm run lint & npm run build",
+    "start": "tsc -w",
+    "build": "rm -rf lib && tsc",
+    "eslint": "eslint --ext .js ./ --cache --quiet",
+    "tslint": "tslint -p ./tsconfig.json --type-check",
+    "lint": "npm run prettier && npm run tslint && npm run eslint",
+    "prettier": "prettier --list-different \"**/*.{ts,json,md}\"",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/billjs/request.git"
+  },
+  "keywords": [
+    "Request",
+    "HTTP",
+    "Ajax",
+    "Fetch",
+    "window.fetch",
+    "XMLHttpRequest",
+    "XHR",
+    "Network",
+    "Async/Await",
+    "Promise",
+    "Simple",
+    "Lightweight",
+    "TypeScript",
+    "Browsers"
+  ],
+  "author": "billjs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/billjs/request/issues"
+  },
+  "homepage": "https://github.com/billjs/request#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "eslint": "^5.10.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "express": "^4.16.4",
+    "husky": "^1.2.0",
+    "jsdom": "^13.0.0",
+    "lint-staged": "^8.1.0",
+    "mocha": "^5.2.0",
+    "multer": "^1.4.1",
+    "prettier": "^1.15.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@billjs/event-emitter": "^1.0.3",
+    "@billjs/query-string": "^1.0.2"
+  }
+}
