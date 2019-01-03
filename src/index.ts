@@ -473,11 +473,13 @@ const REQUEST_ABORT_MSG = 'Request Aborted';
 export class Request {
   private _url: string = '';
   private _data: any = null;
-  private _headers: RequestHeaders = {};
   private _type: RequestType = 'json';
+  private _dataType: RequestDataType = 'json';
+  private headers: RequestHeaders = {
+    Accept: contentTypes.json,
+    'Content-Type': contentTypes.json,
+  };
   private method: RequestMethod = 'GET';
-  private dataType: RequestDataType = 'json';
-  private contentType: RequestContentType = 'application/json';
   private timeout: number = 0;
   private useXHR: boolean = false;
   private cors: boolean = false;
@@ -490,20 +492,20 @@ export class Request {
 
   constructor(url: string, data: any, options: RequestOptions) {
     if (options.method) this.method = options.method;
+    if (options.type) this.type = options.type;
     if (options.dataType) this.dataType = options.dataType;
     if (options.contentType !== void 0) this.contentType = options.contentType;
     if (options.timeout !== void 0) this.timeout = Math.max(0, options.timeout);
     if (options.useXHR !== void 0) this.useXHR = options.useXHR;
     if (options.credentials !== void 0) this.credentials = options.credentials;
-    if (options.type) this.type = options.type;
     if (options.parse) this.parse = options.parse;
     this.onProgress = options.onProgress;
     this.url = this.resolveURL(url, data);
     this.data = data;
-    this.headers = options.headers || {};
     // By default, non-cross-domain requests force to pass cookie credentials.
     // It means the `credentials` option of `options` will be ignored.
     if (!this.cors) this.credentials = true;
+    if (options.headers) Object.assign(this.headers, options.headers);
   }
 
   resolveURL(url: string, data: any) {
@@ -554,26 +556,37 @@ export class Request {
 
   set type(val: RequestType) {
     this._type = val;
-    if (val === 'form') this.contentType = false;
-    if (this.contentType !== false) {
-      this.contentType = contentTypes[val];
+    if (val === 'form') {
+      this.contentType = false;
+      return;
     }
+    this.contentType = contentTypes[val];
   }
 
-  get headers() {
-    return this._headers;
+  get dataType() {
+    return this._dataType;
   }
 
-  set headers(hs: RequestHeaders) {
-    const accept = contentTypes[this.dataType];
-    this._headers = { Accept: accept || '*/*', ...hs };
-    if (this.contentType !== false) {
-      this.setHeader('Content-Type', this.contentType);
+  set dataType(val: RequestDataType) {
+    this._dataType = val;
+    const accept = contentTypes[val];
+    this.setHeader('Accept', accept || '*/*');
+  }
+
+  set contentType(val: RequestContentType) {
+    if (val === false) {
+      this.removeHeader('Content-Type');
+      return;
     }
+    this.setHeader('Content-Type', val);
   }
 
   setHeader(key: string, val: string) {
-    this._headers[key] = val;
+    this.headers[key] = val;
+  }
+
+  removeHeader(key: string) {
+    delete this.headers[key];
   }
 
   isQuery() {
