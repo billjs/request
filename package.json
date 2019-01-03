@@ -1,6 +1,6 @@
 {
   "name": "@billjs/request",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple and lightweight HTTP request library by TypeScript for browsers.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
